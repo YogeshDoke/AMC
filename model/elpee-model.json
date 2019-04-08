@@ -1,0 +1,177 @@
+{
+  "info1": "======================================================================================================",
+  "info2": "= This Project was generated with generjee. http://generjee.com                                      =",
+  "info3": "= You can import this file into the generjee tool, then change the project model and generate again. =",
+  "info4": "======================================================================================================",
+  "entities": [
+    {
+      "name": "User",
+      "id": "User",
+      "lookupField": "username",
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "username",
+          "name": "Username",
+          "type": "String",
+          "editable": false,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": true
+        },
+        {
+          "id": "password",
+          "name": "Password",
+          "type": "Password",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "email",
+          "name": "E-mail",
+          "type": "String",
+          "editable": false,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": true
+        },
+        {
+          "id": "roles",
+          "name": "Roles",
+          "type": "Enumeration",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "status",
+          "name": "Status",
+          "type": "Enumeration",
+          "editable": false,
+          "showInTable": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Pdetails",
+      "id": 1000,
+      "lookupField": "productname",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 0,
+          "readPerm": 0,
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 3,
+          "roleName": "Manager",
+          "createPerm": 0,
+          "readPerm": 0,
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "productname",
+          "name": "Name",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": true
+        },
+        {
+          "id": "price",
+          "name": "EDate",
+          "type": "Date",
+          "editable": true,
+          "showInTable": true,
+          "required": false
+        }
+      ]
+    }
+  ],
+  "appSettings": {
+    "generjeeversion": "1.0",
+    "appName": "elpee",
+    "package": "org.application",
+    "masterDetailsStyle": "1",
+    "dataListStyle": "1",
+    "pfTheme": "omega",
+    "runtarget": "as",
+    "layer": {
+      "rest": false
+    },
+    "manageRolesAndUsers": true,
+    "createRegistrationForm": true,
+    "roles": [
+      {
+        "id": 1,
+        "name": "Administrator",
+        "canBeDeleted": false
+      },
+      {
+        "id": 2,
+        "name": "Public",
+        "canBeDeleted": false
+      },
+      {
+        "id": "registered001",
+        "name": "Registered",
+        "canBeDeleted": false
+      },
+      {
+        "id": 3,
+        "name": "Manager",
+        "canBeDeleted": true
+      }
+    ]
+  },
+  "guid": "0cb8a1c9-a48d-44dd-aadf-5e4636915c25"
+}

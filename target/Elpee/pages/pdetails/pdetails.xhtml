@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define name="content">
+
+            <h:form prependId="false" id="pdetailsDataForm" onkeypress="if (event.keyCode == 13) {
+                return false;
+            }">
+
+                <p:dataTable id="pdetailsTable" value="#{pdetailsBean.pdetailsList}" var="pdetails" resizableColumns="true" paginator="true"
+                             paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                             paginatorPosition="bottom" widgetVar="pdetailsTable" emptyMessage="#{messages.label_no_records_found}"
+                             reflow="true">
+
+                    <f:facet name="header" >
+
+                        <p:commandButton value="#{messages.create_new_pdetails}" icon="ui-icon-plusthick" action="#{pdetailsBean.prepareNewPdetails()}"
+                                         resetValues="true" update=":editPdetailsDialog" oncomplete="PF('editPdetailsDialogWidget').show()"
+                                         rendered="#{pdetailsBean.isPermitted('pdetails:create')}" style="float:left" />
+                        <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="pdetailsTable" trigger="toggler" />
+                    </f:facet>
+
+                    <p:column  headerText="#{messages.field_label_pdetails_name}" sortBy="#{pdetails.name}" filterBy="#{pdetails.name}">
+                        <f:facet name="filter">
+                            <p:inputText id="nameFilter"
+                                         onkeypress="if (event.keyCode == 13) {
+                                    PF('pdetailsTable').filter();
+                                    updateNameFilter();
+                                    return false;
+                                }" >
+                                <p:remoteCommand name="updateNameFilter" update="pdetailsTable:nameFilter" />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{messages.field_label_pdetails_edate}" sortBy="#{pdetails.edate}" filterBy="#{pdetails.edate}">
+                        <f:facet name="filter">
+                            <p:inputText id="edateFilter"
+                                         onkeyup="if (event.keyCode == 13) {
+                                    PF('pdetailsTable').filter();
+                                    updateEdateFilter();
+                                    return false;
+                                }" >
+                                <p:remoteCommand name="updateEdateFilter" update="pdetailsTable:edateFilter" />
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.edate}"><f:convertDateTime /></h:outputText>
+                    </p:column>
+
+
+                    <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+
+                        <p:commandButton icon="ui-icon-zoomin" update=":viewPdetailsDialog" oncomplete="PF('viewPdetailsDialogWidget').show()" title="#{messages.label_view}">
+                            <f:setPropertyActionListener value="#{pdetails}" target="#{pdetailsBean.pdetails}" />
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-pencil" update=":editPdetailsDialog"
+                                         resetValues="true" rendered="#{pdetailsBean.isPermitted(pdetails, 'pdetails:update')}"
+                                         action="#{pdetailsBean.onDialogOpen(pdetails)}"
+                                         oncomplete="PF('editPdetailsDialogWidget').show()"
+                                         title="#{messages.label_edit}" >
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-close" rendered="#{pdetailsBean.isPermitted(pdetails, 'pdetails:delete')}"
+                                         oncomplete="PF('deletePdetailsDialogWidget').show()"
+                                         title="#{messages.label_delete}" >
+                            <f:setPropertyActionListener value="#{pdetails}"
+                                                         target="#{pdetailsBean.pdetails}" />
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:form>
+
+            <p:confirmDialog id="deletePdetailsDialog" widgetVar="deletePdetailsDialogWidget"
+                             rendered="#{pdetailsBean.isPermitted(pdetailsBean.pdetails, 'pdetails:delete')}" header="#{messages.label_confirm_deletion}"
+                             severity="alarm">
+                <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+                <p:outputPanel>
+                    <h:form>
+                        <div style="text-align: center; margin:10px">
+                            <p:commandButton value="#{messages.label_yes}" action="#{pdetailsBean.delete}" update=":pdetailsDataForm :growlForm:growl" oncomplete="PF('deletePdetailsDialogWidget').hide()" />
+                            <p:commandButton value="#{messages.label_no}" onclick="PF('deletePdetailsDialogWidget').hide()" type="button" />
+                        </div>
+                    </h:form>
+                </p:outputPanel>
+            </p:confirmDialog>
+
+            <p:dialog dynamic="true" id="editPdetailsDialog" header="#{messages.label_pdetails_caption}"
+                      modal="true" widgetVar="editPdetailsDialogWidget" maximizable="true">
+                <p:ajax event="close" listener="#{pdetailsBean.reset}"/>
+                <h:form id="editPdetailsForm" >
+                    <p:outputPanel id="pdetailsEditPanel">
+                        <ui:include src="/pages/pdetails/pdetailsEditInclude.xhtml"/>
+                        <div style="text-align: center; margin:10px">
+                            <p:commandButton value="#{messages.label_save}"
+                                             icon="ui-icon-disk" action="#{pdetailsBean.persist}"
+                                             update=":editPdetailsForm:pdetailsEditPanel :pdetailsDataForm :growlForm:growl"
+                                             oncomplete="if(!args.validationFailed) PF('editPdetailsDialogWidget').hide()" />
+                            <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('editPdetailsDialogWidget').hide()" type="button" />
+                        </div>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog dynamic="true" id="viewPdetailsDialog" header="#{messages.label_pdetails_caption}" modal="true" widgetVar="viewPdetailsDialogWidget" maximizable="true">
+                <p:ajax event="close" listener="#{pdetailsBean.reset}" />
+                <h:form id="viewPdetailsForm">
+                    <ui:include src="/pages/pdetails/pdetailsViewInclude.xhtml"/>
+                    <div style="text-align: center; margin:10px">
+                        <p:commandButton value="#{messages.label_close}" icon="ui-icon-close" onclick="PF('viewPdetailsDialogWidget').hide()" type="button" />
+                    </div>
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+</html>

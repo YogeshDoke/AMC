@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define name="content">
+            <h1 class="title ui-widget-header ui-corner-all">Products with due in  15 days </h1>
+            <h:form prependId="false" id="pdetailsDataForm" onkeypress="if (event.keyCode == 13) {
+                        return false;
+                    }">
+                <p:dataTable id="pdetailsTable" value="#{pdetailsBean.pdetailsList15days}" var="pdetails" resizableColumns="true" paginator="true"
+                             paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                             paginatorPosition="bottom" widgetVar="pdetailsTable1" emptyMessage="#{messages.label_no_records_found}"
+                             reflow="true">
+                    <p:column  headerText="#{messages.field_label_pdetails_name}" sortBy="#{pdetails.name}" filterBy="#{pdetails.name}">
+                        <f:facet name="filter">
+                            <p:inputText id="nameFilter"
+                                         onkeypress="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable1').filter();
+                                                     updateNameFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateNameFilter" update="pdetailsTable:nameFilter" />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{messages.field_label_pdetails_edate}" sortBy="#{pdetails.edate}" filterBy="#{pdetails.edate}">
+                        <f:facet name="filter">
+                            <p:inputText id="edateFilter"
+                                         onkeyup="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable1').filter();
+                                                     updateEdateFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateEdateFilter" update="pdetailsTable:edateFilter" />
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.edate}"><f:convertDateTime /></h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+
+
+
+
+            <h1 class="title ui-widget-header ui-corner-all">Products with due in  30 days </h1>
+            <h:form prependId="false" id="pdetailsDataForm1" onkeypress="if (event.keyCode == 13) {
+                        return false;
+                    }">
+                <p:dataTable id="pdetailsTable1" value="#{pdetailsBean.pdetailsList30days}" var="pdetails" resizableColumns="true" paginator="true"
+                             paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                             paginatorPosition="bottom" widgetVar="pdetailsTable2" emptyMessage="#{messages.label_no_records_found}"
+                             reflow="true">
+                    <p:column  headerText="#{messages.field_label_pdetails_name}" sortBy="#{pdetails.name}" filterBy="#{pdetails.name}">
+                        <f:facet name="filter">
+                            <p:inputText id="nameFilter"
+                                         onkeypress="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable2').filter();
+                                                     updateNameFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateNameFilter" update="pdetailsTable:nameFilter" />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{messages.field_label_pdetails_edate}" sortBy="#{pdetails.edate}" filterBy="#{pdetails.edate}">
+                        <f:facet name="filter">
+                            <p:inputText id="edateFilter"
+                                         onkeyup="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable2').filter();
+                                                     updateEdateFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateEdateFilter" update="pdetailsTable:edateFilter" />
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails.edate}"><f:convertDateTime /></h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <h1 class="title ui-widget-header ui-corner-all">Products with due in 45 days</h1>
+            <h:form prependId="false" id="pdetailsDataForm2" onkeypress="if (event.keyCode == 13) {
+                        return false;
+                    }">
+                <p:dataTable id="pdetailsTable2" value="#{pdetailsBean.pdetailsList45days}" var="pdetails" resizableColumns="true" paginator="true"
+                             paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                             paginatorPosition="bottom" widgetVar="pdetailsTable3" emptyMessage="#{messages.label_no_records_found}"
+                             reflow="true">
+                    <p:column  headerText="#{messages.field_label_pdetails_name}" sortBy="#{pdetails[0]}" filterBy="#{pdetails[0]}">
+                        <f:facet name="filter">
+                            <p:inputText id="nameFilter"
+                                         onkeypress="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable3').filter();
+                                                     updateNameFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateNameFilter" update="pdetailsTable:nameFilter" />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails[0]}" />
+
+                    </p:column>
+                    <p:column headerText="#{messages.field_label_pdetails_edate}" sortBy="#{pdetails[1]}" filterBy="#{pdetails[1]}">
+                        <f:facet name="filter">
+                            <p:inputText id="edateFilter"
+                                         onkeyup="if (event.keyCode == 13) {
+                                                     PF('pdetailsTable2').filter();
+                                                     updateEdateFilter();
+                                                     return false;
+                                                 }" >
+                                <p:remoteCommand name="updateEdateFilter" update="pdetailsTable:edateFilter" />
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{pdetails[1]}"><f:convertDateTime /></h:outputText>
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</html>
